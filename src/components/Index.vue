@@ -79,7 +79,9 @@ export default {
        */
       const url = `/api/g2/getOnsInfo?name=disease_h5&callback=&_=${timeStamp}`
       this.$http.get(url).then(res => {
-        console.log(res.data.data)
+        // 用 JSON.parse 转换成 json 格式的数据
+        const subData = JSON.parse(res.data.data)
+        console.log(subData.areaTree)
       }).catch(err => {
         console.log(err)
       })
