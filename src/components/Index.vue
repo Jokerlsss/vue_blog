@@ -2,7 +2,7 @@
 <template>
   <el-container>
     <!-- 顶部 -->
-    <button @click="getInfo">获取武汉信息</button>
+    <!-- <button @click="getInfo">获取武汉信息</button> -->
     <el-header height="80px">
       <!-- gutter是col之间的空隙大小 -->
       <el-row :gutter="20">
@@ -71,21 +71,7 @@ export default {
     }
   },
   methods: {
-    getInfo () {
-      const timeStamp = new Date().getTime()
-      /**
-       * https://view.inews.qq.com/
-       * g2/getOnsInfo?name=disease_h5&callback=&_=${timeStamp}
-       */
-      const url = `/api/g2/getOnsInfo?name=disease_h5&callback=&_=${timeStamp}`
-      this.$http.get(url).then(res => {
-        // 用 JSON.parse 转换成 json 格式的数据
-        const subData = JSON.parse(res.data.data)
-        console.log(subData.areaTree)
-      }).catch(err => {
-        console.log(err)
-      })
-    }
+
   }
 }
 </script>

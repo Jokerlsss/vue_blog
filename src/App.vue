@@ -18,8 +18,8 @@ export default {
 <style scoped>
 /** 页面居中 */
 /** 页面宽度80% */
-/* .index {
+.index {
   margin: 0 auto;
   width: 80%;
-} */
+}
 </style>

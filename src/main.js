@@ -12,6 +12,10 @@ import VXETable from 'vxe-table'
 import 'vxe-table/lib/index.css'
 // axios
 import axios from 'axios'
+// echarts
+import echarts from 'echarts'
+import world from 'echarts/map/json/world.json'
+import china from 'echarts/map/json/china.json'
 
 Vue.config.productionTip = false
 
@@ -20,6 +24,10 @@ Vue.use(ElementUI)
 Vue.use(VXETable)
 
 Vue.prototype.$http = axios
+
+Vue.prototype.$echarts = echarts
+echarts.registerMap('world', world)
+echarts.registerMap('china', china)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
