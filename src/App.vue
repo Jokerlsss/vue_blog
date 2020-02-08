@@ -19,7 +19,7 @@ export default {
 /** 页面居中 */
 /** 页面宽度80% */
 .index {
-  margin: 0 auto;
-  width: 80%;
+  /* margin: 0 auto; */
+  /* width: 80%; */
 }
 </style>

@@ -39,10 +39,7 @@ export default {
       timeCount: 0,
 
       echartsDatas: [],
-      temp: {
-        name: null,
-        value: null
-      },
+      temp: {},
 
       // convertData: null,
       geoCoordMap: {
@@ -91,7 +88,6 @@ export default {
     this.time()
     this.$nextTick(() => {
       MP().then(BMap => {
-        console.log('echartsDatas111', this.echartsDatas)
         this.drawChart()
       })
     })
@@ -115,31 +111,18 @@ export default {
         // ------国家数据------
         this.countryData = subData.areaTree
         // ------Echarts图-----
-        /**
-         * data = [
-          {
-            name: '山东',
-            value: 50
-          },
-         */
+        // ****************************************************
+        // console.log('this.provinceData:', this.provinceData)
         for (var i = 0; i < this.provinceData.length; i++) {
-          var geoCoord = this.geoCoordMap[this.provinceData[i].name]
-          if (geoCoord) {
-            this.temp.name = this.provinceData[i].name
-            this.temp.value = geoCoord.concat(this.provinceData[i].total.confirm)
-            // ****************未解决数据问题****************
-            console.log(this.provinceData[i].name)
-            console.log(this.provinceData[i].total.confirm)
-            console.log(this.temp)
-            this.echartsDatas.push(this.temp)
-          }
-          /** 设置数组，传进 echartsDatas 中 */
-          // this.temp.name = this.provinceData[i].name
-          // this.temp.value = this.provinceData[i].total.confirm
-          // this.echartsDatas.push(this.temp)
-          // console.log('provinceData:', this.provinceData[i].name)
-          // console.log('provinceData:', this.provinceData[i].total.confirm)
+          this.temp.name = this.provinceData[i].name
+          this.temp.value = this.provinceData[i].total.confirm
+          this.echartsDatas.push(this.temp)
+          // console.log('temp', this.temp)
+          this.temp = {}
         }
+        this.drawChart()
+        console.log('echartsname', this.echartsDatas)
+        // console.log('temp:', this.temp)
         // console.log('provinceData:', this.provinceData)
       }).catch(err => {
         console.log(err)
@@ -197,7 +180,29 @@ export default {
     /**
      * 画echarts
      */
+
     drawChart () {
+      var convertData = (echartsDatas) => {
+        var res = []
+        // console.log('res1', res)
+        // console.log('echartsDatas', echartsDatas)
+        for (var i = 0; i < echartsDatas.length; i++) {
+          var geoCoord = this.geoCoordMap[echartsDatas[i].name]
+          // console.log('geoCoord:', geoCoord)
+
+          if (geoCoord) {
+            res.push({
+              name: echartsDatas[i].name,
+              value: geoCoord.concat(echartsDatas[i].value)
+            })
+            // console.log('res:', res)
+            // console.log('第:', i, '次循环')
+          }
+        }
+        return res
+      }
+      // console.log('convertdata:', convertData)
+      // **************************************
       var echarts = require('echarts')
       var myChart = echarts.init(document.getElementById('main'))
       // var convertData = this.getconvertData(this.echartsDatas)
@@ -207,15 +212,19 @@ export default {
         backgroundColor: 'transparent',
         title: {
           text: '新型肺炎疫情实时动态',
-          subtext: 'Data from PM25.in',
-          sublink: 'http://www.pm25.in',
+          subtext: 'Data from news',
           left: 'center',
           textStyle: {
-            color: '#333333'
+            color: '#fff'
           }
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: (obj) => {
+            var str = ''
+            str = '确诊人数</br>' + obj.data.name + ':&nbsp' + obj.data.value[2]
+            return str
+          }
         },
         bmap: {
           // 首次呈现的地理位置
@@ -223,7 +232,7 @@ export default {
           // zoom：放大倍数
           zoom: 5,
           // roam：是否可以拖动地图
-          roam: true,
+          roam: false,
           mapStyle: {
             styleJson: [
               {
@@ -365,13 +374,13 @@ export default {
             // type：圆点的样式
             type: 'effectScatter',
             coordinateSystem: 'bmap',
-            // 0-6 即为排名前六
-            data: this.echartsDatas.sort(function (a, b) {
+            // 0-6 即为排名前六,sort 为排序
+            data: convertData(this.echartsDatas.sort(function (a, b) {
+              // console.log('b:', b)
+              // console.log('a:', a)
               return b.value - a.value
-            }).slice(0, 35),
-            symbolSize: function (val) {
-              return val[2] / 10
-            },
+            }).slice(0, 35)),
+            symbolSize: 20,
             // 小圆点是否有“范围圈”
             showEffectOn: 'emphasis',
             rippleEffect: {
