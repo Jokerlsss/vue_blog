@@ -1,3 +1,4 @@
+<!-- Description：武汉疫情地图 -->
 <template>
   <div>
     <div>现在时间：{{timeNow}}</div>

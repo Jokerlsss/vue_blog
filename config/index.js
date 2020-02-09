@@ -15,8 +15,13 @@ module.exports = {
         target: 'https://view.inews.qq.com/',
         changeOrigin: true,
         secure: false,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { '^/api': 'api' },
       },
+      '/stockapi': {
+        target: 'http://127.0.0.1:5590/',
+        changeOrigin: true,
+        pathRewrite: { '^/stockapi': '' },
+      }
     },
 
     // Various Dev Server settings

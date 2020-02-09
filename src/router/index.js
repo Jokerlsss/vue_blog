@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import vMarkDown from '@/components/v-markDown'
 import Index from '@/components/Index'
 import vexTable from '@/components/v-vexTable'
+import Stock from '@/components/Stock'
 // import Manager from '@/components/Manager'
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/v-vexTable',
       name: 'v-vexTable',
       component: vexTable
+    },
+    {
+      path: '/Stock',
+      name: 'Stock',
+      component: Stock
     }
   ]
 })

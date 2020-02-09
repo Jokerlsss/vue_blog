@@ -5,7 +5,7 @@
     mode="horizontal"
     @select="handleSelect"
   >
-    <el-menu-item index="1">首页</el-menu-item>
+    <el-menu-item index="1" @click="toStock">首页</el-menu-item>
     <el-menu-item index="2">关于我</el-menu-item>
     <!-- <el-submenu index="2">
       <template slot="title">我的工作台</template>
@@ -32,6 +32,9 @@ export default {
   methods: {
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    toStock: function () {
+      this.$router.replace('/Stock')
     }
   }
 }
